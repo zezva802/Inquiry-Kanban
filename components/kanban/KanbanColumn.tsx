@@ -5,9 +5,10 @@ interface KanbanColumnProps {
     title: string;
     phase: InquiryPhase;
     inquiries: Inquiry[];
+    handleOpenModal: (inquiry: Inquiry) => void;
 }
 
-export function KanbanColumn({ title, phase, inquiries}: KanbanColumnProps){
+export function KanbanColumn({ title, phase, inquiries, handleOpenModal}: KanbanColumnProps){
 
     const count = inquiries.length;
     const totalPotentialValue = inquiries.reduce((acc, i) => {return acc + i.potentialValue}, 0);
@@ -29,7 +30,7 @@ export function KanbanColumn({ title, phase, inquiries}: KanbanColumnProps){
                 </div>
             </header>
             {inquiries.map((inquiry) => (
-                <InquiryCard key={inquiry.id} inquiry={inquiry}/>
+                <InquiryCard handleOpenModal={handleOpenModal} key={inquiry.id} inquiry={inquiry}/>
             ))}
         </div>
     )
