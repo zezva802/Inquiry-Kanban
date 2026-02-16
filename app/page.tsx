@@ -1,6 +1,8 @@
+import { KanbanBoard } from "@/components/kanban/KanbanBoard"
 export default function Home() {
     return (
         <main className="min-h-screen p-8">
+
             <div className="max-w-7xl mx-auto">
                 <header className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-800">
@@ -12,9 +14,7 @@ export default function Home() {
                 </header>
 
                 <div className="bg-white rounded-lg shadow p-6">
-                    <p className="text-gray-700">
-                        Kanban Board will appear hereeeeeeeeeeeeeeeeeeeeeeeee
-                    </p>
+                    <KanbanBoard></KanbanBoard>
                 </div>
             </div>
         </main>
