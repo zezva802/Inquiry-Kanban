@@ -121,7 +121,7 @@ export const mockInquiries: Inquiry[] = [
         eventDate: "2026-11-01",
         guestCount: 500,
         potentialValue: 250000,
-        phase: "offers_received",
+        phase: "sent_to_hotels",
         hotels: ["Albuquerque Convention Center"],
         notes: "Requires large auditorium + lab demo space.",
         createdAt: "2026-01-05T08:00:00Z",
