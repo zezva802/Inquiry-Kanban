@@ -1,5 +1,6 @@
 import { Inquiry, InquiryPhase } from "@/types/inquiry";
 import { InquiryCard } from "./InquiryCard";
+import { useDroppable } from "@dnd-kit/core";
 
 interface KanbanColumnProps {
     title: string;
@@ -20,8 +21,10 @@ export function KanbanColumn({ title, phase, inquiries, handleOpenModal}: Kanban
     });
     const formattedValue = formatter.format(totalPotentialValue);
 
+    const {setNodeRef} = useDroppable({id: phase});
+
     return(
-        <div className="w-80 bg-white p-4 rounded-lg mx-2 min-h-screen">
+        <div ref={setNodeRef} className="w-80 bg-white p-4 rounded-lg mx-2 min-h-screen">
             <header className="mb-4">
                 <h2 className="font-bold text-gray-800">{title}</h2>
                 <div className="text-sm text-gray-600">
@@ -29,6 +32,7 @@ export function KanbanColumn({ title, phase, inquiries, handleOpenModal}: Kanban
                     <p>Total: {formattedValue}</p>
                 </div>
             </header>
+
             {inquiries.map((inquiry) => (
                 <InquiryCard handleOpenModal={handleOpenModal} key={inquiry.id} inquiry={inquiry}/>
             ))}
