@@ -9,6 +9,9 @@ interface InquiryStore {
     updatePhase: (id: string, phase: InquiryPhase) => void;
     openModal: (inquiry: Inquiry) => void;
     closeModal: () => void;
+    isLoading: boolean;
+    error: string | null;
+    fetchInquiries: () => Promise<void>;
 }
 
 export const useInquiryStore = create<InquiryStore>((set) => ({
@@ -30,4 +33,15 @@ export const useInquiryStore = create<InquiryStore>((set) => ({
         selectedInquiry : null,
         isModalOpen : false,
     }),
+    isLoading: false,
+    error: null,
+    fetchInquiries: async () => {
+        set({isLoading:true, error: null})
+        try {
+            const data = await fetch('/api/inquiries').then(r => r.json())
+            set({inquiries: data, isLoading: false})
+        } catch{
+            set({error: 'Failed to fetch inquiries', isLoading: false});
+        }
+    }
 }))

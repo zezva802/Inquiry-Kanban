@@ -5,10 +5,15 @@ import { InquiryPhase } from "@/types/inquiry";
 import { InquiryDetailModal } from "../modal/InquiryDetailModal";
 import { DndContext, DragEndEvent, useSensors, useSensor, PointerSensor } from "@dnd-kit/core";
 import { useInquiryStore } from "@/store/inquiryStore";
+import { useEffect } from "react";
 
 
 export function KanbanBoard(){
-    const { inquiries, isModalOpen, selectedInquiry, updatePhase, openModal} = useInquiryStore()
+    const { inquiries, isModalOpen, selectedInquiry, updatePhase, openModal, fetchInquiries, isLoading, error} = useInquiryStore();
+
+    useEffect(() => {
+        fetchInquiries()
+    }, []);
 
     const onDragEnd = (dragEndEvent: DragEndEvent) => {
         const activeId = dragEndEvent.active.id;
@@ -28,6 +33,9 @@ export function KanbanBoard(){
             }
         })
     )
+
+    if (isLoading) return <div>Loading...</div>
+    if (error) return <div>{error}</div>
 
     return (
         <>  
