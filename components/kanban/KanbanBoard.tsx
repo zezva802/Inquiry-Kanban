@@ -62,7 +62,7 @@ export function KanbanBoard(){
             
             {isModalOpen && selectedInquiry && <InquiryDetailModal inquiry={selectedInquiry}></InquiryDetailModal> }
             <DndContext onDragEnd={onDragEnd} sensors={sensors}>
-                <div className="flex">
+                <div className="flex overflow-x-auto pb-4 gap-4">
                         <KanbanColumn title="New Inquiries" phase="new" inquiries={filteredInquiries.filter(i => i.phase === "new")} handleOpenModal={openModal}></KanbanColumn>
                         <KanbanColumn title="Sent to Hotels" phase="sent_to_hotels" inquiries={filteredInquiries.filter(i => i.phase === "sent_to_hotels")} handleOpenModal={openModal}></KanbanColumn>
                         <KanbanColumn title="Received offers" phase="offers_received" inquiries={filteredInquiries.filter(i => i.phase === "offers_received")} handleOpenModal={openModal}></KanbanColumn>

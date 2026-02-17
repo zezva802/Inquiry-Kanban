@@ -6,7 +6,7 @@ interface InquiryStore {
     inquiries: Inquiry[];
     selectedInquiry: Inquiry | null;
     isModalOpen: boolean;
-    updatePhase: (id: string, phase: InquiryPhase) => void;
+    updatePhase: (id: string, phase: InquiryPhase) => Promise<void>;
     openModal: (inquiry: Inquiry) => void;
     closeModal: () => void;
     isLoading: boolean;
@@ -22,17 +22,32 @@ interface InquiryStore {
     clearFilters: () => void
 }
 
-export const useInquiryStore = create<InquiryStore>((set) => ({
+export const useInquiryStore = create<InquiryStore>((set, get) => ({
     inquiries: mockInquiries,
     selectedInquiry: null,
     isModalOpen: false,
 
-    updatePhase: (id, phase) => set((state) => ({
-        inquiries: state.inquiries.map((i) => {
-            if (i.id === id) return { ...i, phase }
-            return i
-        })
-    })),
+    updatePhase: async (id, phase) => {
+        const original = get().inquiries.find(i => i.id === id)
+        
+        set((state) => ({
+            inquiries: state.inquiries.map((i) => i.id === id ? { ...i, phase } : i)
+        }))
+
+        try {
+            await fetch(`/api/inquiries/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phase })
+            })
+        } catch {
+            if (original) {
+                set((state) => ({
+                    inquiries: state.inquiries.map((i) => i.id === id ? { ...i, phase: original.phase } : i)
+                }))
+            }
+        }
+    },
     openModal: (inquiry) => set({
         selectedInquiry : inquiry,
         isModalOpen : true,

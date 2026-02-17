@@ -45,7 +45,7 @@ export function FilterPanel() {
     ].filter(Boolean).length;
 
     return(
-        <div className="flex gap-4 bg-white rounded-lg p-4 shadow-sm mb-6">
+        <div className="flex flex-wrap gap-4 bg-white rounded-lg p-4 shadow-sm mb-6">
             <div className="flex flex-col gap-1">
                 <label className="text-xs text-gray-500">Client Name</label>
                 <input type="text" placeholder="Search client name" value={localName} onChange={(e) => setLocalName(e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm"/>
