@@ -23,8 +23,15 @@ export function KanbanColumn({ title, phase, inquiries, handleOpenModal}: Kanban
 
     const {setNodeRef} = useDroppable({id: phase});
 
+    const phaseConfig = {
+        new: { color: "border-blue-400"},
+        sent_to_hotels: { color: "border-purple-400"},
+        offers_received: { color: "border-orange-400"},
+        completed: { color: "border-green-400"},
+    }
+
     return(
-        <div ref={setNodeRef} className="w-80 bg-white p-4 rounded-lg mx-2 min-h-screen">
+        <div ref={setNodeRef} className={`border-t-4 border-l-2 ${phaseConfig[phase].color} w-80 bg-white p-4 rounded-lg mx-2 min-h-screen`}>
             <header className="mb-4">
                 <h2 className="font-bold text-gray-800">{title}</h2>
                 <div className="text-sm text-gray-600">
