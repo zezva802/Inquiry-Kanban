@@ -45,18 +45,33 @@ export function FilterPanel() {
     ].filter(Boolean).length;
 
     return(
-        <div>
-            <input type="text" placeholder="Search client name" value={localName} onChange={(e) => setLocalName(e.target.value)}/>
-            <input type="date" value={filters.dateFrom} onChange={(e) => setFilter('dateFrom', e.target.value)} />
-            <input type="date" value={filters.dateTo} onChange={(e) => setFilter('dateTo', e.target.value)} />
-            <input type="number" value={filters.minValue} onChange={(e) => setFilter('minValue', Number(e.target.value))}/>
+        <div className="flex gap-4 bg-white rounded-lg p-4 shadow-sm mb-6">
+            <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Client Name</label>
+                <input type="text" placeholder="Search client name" value={localName} onChange={(e) => setLocalName(e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm"/>
+            </div>
+            <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Date From</label>
+                <input type="date" value={filters.dateFrom} onChange={(e) => setFilter('dateFrom', e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+            </div>
+            <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Date To</label>
+                <input type="date" value={filters.dateTo} onChange={(e) => setFilter('dateTo', e.target.value)} className="border border-gray-200 rounded-lg px-3 py-2 text-sm"/>
+            </div>
+            <div className="flex flex-col gap-1">
+                <label className="text-xs text-gray-500">Min Value</label>
+                <input type="number" value={filters.minValue} onChange={(e) => setFilter('minValue', Number(e.target.value))} className="border border-gray-200 rounded-lg px-3 py-2 text-sm"/>
+            </div>
 
-            <button onClick={() => {
-                clearFilters()
-                setLocalName('')
-            }}>
+            <button onClick={() => {clearFilters(); setLocalName('')}}
+                className="self-end px-4 py-2 text-sm rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                >
                 Clear filters
-                {activeFilterCount > 0 && <span>{activeFilterCount}</span>}
+                {activeFilterCount > 0 && (
+                    <span className="ml-2 bg-blue-500 text-white text-xs rounded-full px-1.5 py-0.5 pr-2">
+                        {activeFilterCount}
+                    </span>
+                )}
             </button>
         </div>
     )
