@@ -5,7 +5,7 @@ import { InquiryPhase } from "@/types/inquiry";
 import { InquiryDetailModal } from "../modal/InquiryDetailModal";
 import { DndContext, DragEndEvent, useSensors, useSensor, PointerSensor } from "@dnd-kit/core";
 import { useInquiryStore } from "@/store/inquiryStore";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { FilterPanel } from "../filters/FilterPanel";
 
 
@@ -56,7 +56,10 @@ export function KanbanBoard(){
 
     return (
         <>  
-            <FilterPanel></FilterPanel>
+            <Suspense fallback={null}>
+                <FilterPanel />
+            </Suspense>
+            
             {isModalOpen && selectedInquiry && <InquiryDetailModal inquiry={selectedInquiry}></InquiryDetailModal> }
             <DndContext onDragEnd={onDragEnd} sensors={sensors}>
                 <div className="flex">

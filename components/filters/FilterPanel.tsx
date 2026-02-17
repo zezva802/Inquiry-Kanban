@@ -1,9 +1,33 @@
 import { useInquiryStore } from "@/store/inquiryStore";
 import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 export function FilterPanel() {
     const {filters, setFilter, clearFilters} = useInquiryStore();
-    const [localName, setLocalName] = useState('');
+    const searchParams = useSearchParams();
+        const [localName, setLocalName] = useState(searchParams.get('clientName') || '');
+    const router = useRouter();
+
+    useEffect(() => {
+        const name = searchParams.get('clientName');
+        if(name) setFilter('clientName', name);
+        const dateFrom = searchParams.get('dateFrom');
+        if(dateFrom) setFilter('dateFrom', dateFrom);
+        const dateTo = searchParams.get('dateTo');
+        if(dateTo) setFilter('dateTo', dateTo);
+        const minValue = searchParams.get('minValue');
+        if(minValue) setFilter('minValue', Number(minValue));
+
+    }, []);
+
+    useEffect(() => {
+        const params = new URLSearchParams()
+        if (filters.clientName) params.set('clientName', filters.clientName)
+        if (filters.dateFrom) params.set('dateFrom', filters.dateFrom)
+        if (filters.dateTo) params.set('dateTo', filters.dateTo)
+        if (filters.minValue) params.set('minValue', String(filters.minValue))
+        router.replace(`?${params.toString()}`)
+    }, [filters])
 
     useEffect(() => {
         const timer = setTimeout(() => {
