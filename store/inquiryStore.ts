@@ -12,6 +12,14 @@ interface InquiryStore {
     isLoading: boolean;
     error: string | null;
     fetchInquiries: () => Promise<void>;
+    filters: {
+        clientName: string
+        dateFrom: string
+        dateTo: string
+        minValue: number
+    }
+    setFilter: (key: string, value: string | number) => void
+    clearFilters: () => void
 }
 
 export const useInquiryStore = create<InquiryStore>((set) => ({
@@ -43,5 +51,22 @@ export const useInquiryStore = create<InquiryStore>((set) => ({
         } catch{
             set({error: 'Failed to fetch inquiries', isLoading: false});
         }
-    }
+    },
+    filters: {
+        clientName: '',
+        dateFrom: '',
+        dateTo: '',
+        minValue: 0
+    },
+    setFilter: (key, value) => set((state) => ({
+        filters: { ...state.filters, [key]: value }
+    })),
+    clearFilters: () => set({
+        filters: {
+            clientName: '',
+            dateFrom: '',
+            dateTo: '',
+            minValue: 0
+        }
+    }),
 }))
